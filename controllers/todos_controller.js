@@ -26,7 +26,7 @@ class TodoController {
         if (error) {
           throw error;
         }
-        res.status(201).send(`User added with id: ${results.rows[0].id}`);
+        res.status(201).send(`Todo added with id: ${results.rows[0].id}`);
       }
     );
   }
@@ -96,7 +96,7 @@ class TodoController {
         if (error) {
           throw error;
         }
-        res.status(200).send(`Deleted user with id: ${id}`);
+        res.status(200).send(`Deleted todo with id: ${id}`);
       }
     );
   }
