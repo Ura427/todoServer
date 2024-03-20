@@ -47,12 +47,21 @@ class TodoController {
   }
 
   async getTodos(req, res) {
-    await db.query("SELECT * FROM todos", (error, results) => {
-      if (error) {
-        throw error;
-      }
+    const { page, limit } = req.query;
+    const offset = (page - 1) * limit; // Calculate the offset
+  
+    const query = {
+      text: "SELECT * FROM todos ORDER BY id OFFSET $1 LIMIT $2",
+      values: [offset, limit],
+    };
+  
+    try {
+      const results = await db.query(query);
       res.status(200).json(results.rows);
-    });
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+      res.status(500).json({ error: "Error fetching todos" });
+    }
   }
 
   async updateTodo(req, res) {
